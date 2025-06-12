@@ -27,7 +27,6 @@ const todoSchema: Schema<ITodo> = new Schema({
   timestamps: true
 });
 
-// Index for better query performance
 todoSchema.index({ userId: 1, createdAt: -1 });
 
 export default mongoose.model<ITodo>('Todo', todoSchema);

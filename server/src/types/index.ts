@@ -1,6 +1,6 @@
 
 import { Request } from 'express';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 export interface IUser extends Document {
   email: string;
@@ -14,7 +14,7 @@ export interface ITodo extends Document {
   title: string;
   description?: string;
   completed: boolean;
-  userId: string;
+  userId: Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
 }

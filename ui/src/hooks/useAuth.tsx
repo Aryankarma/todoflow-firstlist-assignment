@@ -9,23 +9,33 @@ interface AuthStore extends AuthState {
   register: (data: RegisterRequest) => Promise<void>;
   logout: () => void;
   checkAuth: () => void;
+  isInitialized: boolean;
 }
 
-export const useAuth = create<AuthStore>((set, get) => ({
+export const useAuth = create<AuthStore>((set, get) => ({  
   user: null,
   token: null,
   isLoading: false,
   isAuthenticated: false,
+  isInitialized: false,
 
   checkAuth: () => {
     const token = authService.getToken();
     const user = authService.getCurrentUser();
     
+    console.log("consoling token and user: ", token, user);
+
     if (token && user) {
       set({
         token,
         user,
         isAuthenticated: true,
+        isInitialized: true,
+      });
+    } else {
+      set({
+        isAuthenticated: false,
+        isInitialized: true, 
       });
     }
   },

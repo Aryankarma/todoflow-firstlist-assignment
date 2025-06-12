@@ -1,18 +1,22 @@
 
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
-import jwt from 'jsonwebtoken';
+import jwt, { type SignOptions } from 'jsonwebtoken';
 import User from '../models/User';
 import { LoginRequest, RegisterRequest } from '../types';
 
-// Generate JWT token
+
 const generateToken = (id: string): string => {
-  return jwt.sign({ id }, process.env.JWT_SECRET!, {
-    expiresIn: process.env.JWT_EXPIRE
-  });
+  const payload = { id };
+  const secret = process.env.JWT_SECRET!;
+  const options = {
+    expiresIn: process.env.JWT_EXPIRE || '24h'
+  } as SignOptions;
+
+  return jwt.sign(payload, secret, options);
 };
 
-// Register user
+
 export const register = async (req: Request<{}, {}, RegisterRequest>, res: Response): Promise<void> => {
   try {
     const errors = validationResult(req);
@@ -26,14 +30,12 @@ export const register = async (req: Request<{}, {}, RegisterRequest>, res: Respo
 
     const { email, password } = req.body;
 
-    // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       res.status(400).json({ message: 'User already exists with this email' });
       return;
     }
 
-    // Create user
     const user = new User({
       email,
       password
@@ -55,7 +57,6 @@ export const register = async (req: Request<{}, {}, RegisterRequest>, res: Respo
   }
 };
 
-// Login user
 export const login = async (req: Request<{}, {}, LoginRequest>, res: Response): Promise<void> => {
   try {
     const errors = validationResult(req);
@@ -69,21 +70,18 @@ export const login = async (req: Request<{}, {}, LoginRequest>, res: Response): 
 
     const { email, password } = req.body;
 
-    // Check if user exists and include password for comparison
     const user = await User.findOne({ email }).select('+password');
     if (!user) {
       res.status(401).json({ message: 'Invalid credentials' });
       return;
     }
 
-    // Check password
     const isPasswordMatch = await user.comparePassword(password);
     if (!isPasswordMatch) {
       res.status(401).json({ message: 'Invalid credentials' });
       return;
     }
 
-    // Generate token
     const token = generateToken(user._id.toString());
 
     res.json({

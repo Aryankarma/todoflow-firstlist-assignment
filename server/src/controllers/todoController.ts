@@ -4,7 +4,6 @@ import { validationResult } from 'express-validator';
 import Todo from '../models/Todo';
 import { AuthRequest, CreateTodoRequest, UpdateTodoRequest } from '../types';
 
-// Get all todos for the authenticated user
 export const getTodos = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const todos = await Todo.find({ userId: req.user!.id }).sort({ createdAt: -1 });
@@ -15,8 +14,7 @@ export const getTodos = async (req: AuthRequest, res: Response): Promise<void> =
   }
 };
 
-// Create a new todo
-export const createTodo = async (req: AuthRequest<{}, {}, CreateTodoRequest>, res: Response): Promise<void> => {
+export const createTodo = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -44,8 +42,7 @@ export const createTodo = async (req: AuthRequest<{}, {}, CreateTodoRequest>, re
   }
 };
 
-// Update a todo
-export const updateTodo = async (req: AuthRequest<{ id: string }, {}, UpdateTodoRequest>, res: Response): Promise<void> => {
+export const updateTodo = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -78,8 +75,7 @@ export const updateTodo = async (req: AuthRequest<{ id: string }, {}, UpdateTodo
   }
 };
 
-// Delete a todo
-export const deleteTodo = async (req: AuthRequest<{ id: string }>, res: Response): Promise<void> => {
+export const deleteTodo = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
 
@@ -97,8 +93,7 @@ export const deleteTodo = async (req: AuthRequest<{ id: string }>, res: Response
   }
 };
 
-// Toggle todo completion status
-export const toggleTodo = async (req: AuthRequest<{ id: string }, {}, { completed: boolean }>, res: Response): Promise<void> => {
+export const toggleTodo = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
     const { completed } = req.body;

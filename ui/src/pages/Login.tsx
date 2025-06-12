@@ -1,8 +1,27 @@
 
 import { motion } from 'framer-motion';
 import { LoginForm } from '@/components/auth/LoginForm';
+import { useEffect } from 'react';
+import { useAuth } from '@/hooks/useAuth';
+import { Navigate } from 'react-router-dom';
 
 const Login = () => {
+
+  const { isAuthenticated, isInitialized, checkAuth } = useAuth();
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
+  if (!isInitialized) {
+    return <div>Loading...</div>
+  }
+
+  if (isAuthenticated) {
+    console.log("user is already authenticated hence redirecting to login");
+    return <Navigate to="/dashboard" replace />;
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center gradient-bg p-4">
       <div className="absolute inset-0 bg-grid-white/10 bg-grid-pattern" />

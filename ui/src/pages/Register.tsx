@@ -1,8 +1,27 @@
 
 import { motion } from 'framer-motion';
 import { RegisterForm } from '@/components/auth/RegisterForm';
+import { useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
 
 const Register = () => {
+
+  const { isAuthenticated, isInitialized, checkAuth } = useAuth();
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
+  if (!isInitialized) {
+    return <div>Loading...</div>
+  }
+
+  if (isAuthenticated) {
+    console.log("user is already authenticated hence redirecting to dashboard");
+    return <Navigate to="/dashboard" replace />;
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center gradient-bg p-4">
       <div className="absolute inset-0 bg-grid-white/10 bg-grid-pattern" />

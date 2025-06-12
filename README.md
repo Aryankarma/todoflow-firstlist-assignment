@@ -21,7 +21,7 @@ A full-stack MERN application with TypeScript, featuring user authentication, CR
 - **Database**: MongoDB with Mongoose ODM
 - **Authentication**: JWT tokens with bcrypt password hashing
 - **Validation**: Input validation using express-validator
-- **Security**: Helmet, CORS, rate limiting
+- **Security**: Helmet, CORS
 - **Error Handling**: Comprehensive error handling middleware
 - **Logging**: Morgan for request logging
 
@@ -34,7 +34,6 @@ A full-stack MERN application with TypeScript, featuring user authentication, CR
 - shadcn/ui component library
 - Framer Motion for animations
 - Zustand for state management
-- React Router for navigation
 - Axios for API calls
 
 ### Backend
@@ -43,10 +42,8 @@ A full-stack MERN application with TypeScript, featuring user authentication, CR
 - MongoDB with Mongoose
 - JWT for authentication
 - bcryptjs for password hashing
-- express-validator for validation
 - Helmet for security headers
 - CORS for cross-origin requests
-- Rate limiting for API protection
 
 ## 🚦 Getting Started
 
@@ -59,12 +56,13 @@ A full-stack MERN application with TypeScript, featuring user authentication, CR
 
 1. **Clone the repository**
 ```bash
-git clone <repository-url>
+git clone https://github.com/Aryankarma/todoflow-firstlist-assignment
 cd todoflow
 ```
 
 2. **Install frontend dependencies**
 ```bash
+cd ui
 npm install
 ```
 
@@ -77,8 +75,8 @@ npm install
 4. **Environment Setup**
 The backend `.env` file is already configured with the provided MongoDB URI:
 ```
-MONGODB_URI=mongodb+srv://aryankarma29:0HfUCmVCypXaBAsq@todocluster.ywgt6y0.mongodb.net/todoflow
-JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
+MONGODB_URI=mongodb+srv://<yourusername>:<somepassword>@todocluster.ywgt6y0.mongodb.net/todoflow
+JWT_SECRET=super-secret
 JWT_EXPIRE=7d
 NODE_ENV=development
 PORT=5000
@@ -94,6 +92,7 @@ npm run dev
 
 **Frontend (Terminal 2):**
 ```bash
+cd ui
 npm run dev
 ```
 
@@ -118,7 +117,6 @@ The application will be available at:
 - JWT token authentication
 - Protected API routes
 - Input validation and sanitization
-- Rate limiting (100 requests per 15 minutes)
 - Security headers with Helmet
 - CORS configuration
 - Error handling without sensitive data exposure
@@ -182,14 +180,7 @@ todoflow/
 3. Ensure MongoDB connection is configured
 4. Update CORS origins for production
 
-## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Open a pull request
+### Images
 
-## 📄 License
 
-This project is open source and available under the MIT License.
